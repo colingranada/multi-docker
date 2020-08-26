@@ -18,7 +18,7 @@ after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdio
 
   # Take those images and push them to docker hub
-  - docker push colingrana/multi-client
-  - docker push colingrana/multi-nginx
-  - docker push colingrana/multi-server
-  - docker push colingrana/multi-worker
+  - docker push colingranada/multi-client
+  - docker push colingranada/multi-nginx
+  - docker push colingranada/multi-server
+  - docker push colingranada/multi-worker
