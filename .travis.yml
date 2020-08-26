@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t colingranada/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true colingranada/react-test npm test
+
+after_success:
+  - docker build -t colingranada/multi-client ./client
+  - docker build -t colingranada/multi-nginx ./nginx
+  - docker build -t colingranada/multi-server ./server
+  - docker build -t colingranada/multi-worker ./worker
+
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdio
+
+  # Take those images and push them to docker hub
+  - docker push colingrana/multi-client
+  - docker push colingrana/multi-nginx
+  - docker push colingrana/multi-server
+  - docker push colingrana/multi-worker
